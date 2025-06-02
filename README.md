@@ -1,5 +1,10 @@
 # 🌩️ Obsidian Protocol
 
+**Project Maintainer**: Intarmour – Offensive Security Research Team  
+**Contact**: [security@intarmour.com](mailto:security@intarmour.com)  
+**License**: MIT  
+**Status**: v1.0.0 - Community Free Edition  
+
 **Open-Source Cloud Adversary Simulation Framework**
 
 Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-based attack techniques aligned with the MITRE ATT&CK framework.
@@ -10,6 +15,16 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 ![Status](https://img.shields.io/badge/Status-MVP--Complete-success)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
+![Maintenance](https://img.shields.io/badge/Maintained-yes-brightgreen)
+![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-ff69b4)
+![Last Commit](https://img.shields.io/github/last-commit/intarmour/obsidian-protocol)
+![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Framework](https://img.shields.io/badge/Built%20With-Python%20%7C%20Boto3%20%7C%20YAML-blue)
+![Security](https://img.shields.io/badge/Security-First-critical)
+![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-red)
+![Issues](https://img.shields.io/github/issues/intarmour/obsidian-protocol)
+![Stars](https://img.shields.io/github/stars/intarmour/obsidian-protocol)
+![Forks](https://img.shields.io/github/forks/intarmour/obsidian-protocol)
 
 ## 🔓 Free Edition Includes
 - 10 advanced AWS TTPs (MITRE ATT&CK aligned)
@@ -45,6 +60,8 @@ nano .env
 ```bash
 python cli.py
 ```
+
+When starting the CLI, a banner with project info, license, and contact will be shown. This helps ensure clear attribution and communication in lab environments.
 
 ### Using the CLI (Interactive Mode)
 Once you run the CLI, you’ll be guided through:
