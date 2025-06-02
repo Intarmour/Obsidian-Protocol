@@ -14,7 +14,7 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 ## 🔓 Free Edition Includes
 - 10 advanced AWS TTPs (MITRE ATT&CK aligned)
 - 5 realistic multi-phase attack scenarios
-- CLI-based interface (interactive)
+- Interactive CLI with guided selection and job logging
 - `.env` based credential injection
 - Air-gapped compatible
 - MIT License
@@ -40,10 +40,21 @@ cp .env.example .env
 nano .env
 ```
 
+
 ### Run CLI
 ```bash
 python cli.py
 ```
+
+### Using the CLI (Interactive Mode)
+Once you run the CLI, you’ll be guided through:
+
+1. Selecting your cloud provider (currently only AWS is available in the Free Edition)
+2. Verifying your API credentials from the `.env` file
+3. Choosing between running individual TTPs or full scenarios
+4. Executing the selected adversary technique with live feedback
+
+All executions are logged and stored per job ID for easy auditing and traceability.
 
 ## 🛠️ Premium Version
 Interested in additional functionality?
