@@ -1,7 +1,0 @@
-cloud: aws
-commands:
-- aws iam list-users --profile test-4
-description: Reconnaissance technique 4 for AWS.
-id: TTP-004
-name: AWS Reconnaissance 4
-risk: low

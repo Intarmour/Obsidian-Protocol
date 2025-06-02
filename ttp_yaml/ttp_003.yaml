@@ -1,7 +1,0 @@
-cloud: aws
-commands:
-- aws iam list-users --profile test-3
-description: Reconnaissance technique 3 for AWS.
-id: TTP-003
-name: AWS Reconnaissance 3
-risk: low

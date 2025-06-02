@@ -1,5 +1,9 @@
 # 🌩️ Obsidian Protocol
 
+**Open-Source Cloud Adversary Simulation Framework**
+
+Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-based attack techniques aligned with the MITRE ATT&CK framework.
+
 ![Multicloud](https://img.shields.io/badge/Multicloud-Ready-brightgreen)
 ![Air-Gapped](https://img.shields.io/badge/Air--Gapped-Compatible-blue)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk%20%7C%20Sentinel-orange)
@@ -7,15 +11,19 @@
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-**Open-Source Cloud Adversary Simulation Framework**
-
-Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-based attack techniques aligned with the MITRE ATT&CK framework.
+## 🔓 Free Edition Includes
+- 10 advanced AWS TTPs (MITRE ATT&CK aligned)
+- 5 realistic multi-phase attack scenarios
+- CLI-based interface (interactive)
+- `.env` based credential injection
+- Air-gapped compatible
+- MIT License
 
 ## 🚀 Quick Installation Guide
 
 ### Clone the repo
 ```bash
-git clone https://github.com/yourusername/obsidian-protocol.git
+git clone https://github.com/intarmour/obsidian-protocol.git
 cd obsidian-protocol
 ```
 

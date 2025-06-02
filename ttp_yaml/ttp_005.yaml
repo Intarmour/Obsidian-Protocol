@@ -1,7 +1,0 @@
-cloud: aws
-commands:
-- aws iam list-users --profile test-5
-description: Reconnaissance technique 5 for AWS.
-id: TTP-005
-name: AWS Reconnaissance 5
-risk: low
