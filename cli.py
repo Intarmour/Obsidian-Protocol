@@ -1,16 +1,24 @@
+print("""
+.------------------------------------------------------------------------------.
+|  ___  _         _     _ _               ____            _                  _ |
+| / _ \| |__  ___(_) __| (_) __ _ _ __   |  _ \ _ __ ___ | |_ ___   ___ ___ | ||
+|| | | | '_ \/ __| |/ _` | |/ _` | '_ \  | |_) | '__/ _ \| __/ _ \ / __/ _ \| ||
+|| |_| | |_) \__ \ | (_| | | (_| | | | | |  __/| | | (_) | || (_) | (_| (_) | ||
+| \___/|_.__/|___/_|\__,_|_|\__,_|_| |_| |_|   |_|  \___/ \__\___/ \___\___/|_||
+'------------------------------------------------------------------------------'
+Obsidian Protocol – Adversary Emulator
+License: MIT
+Contact: security@intarmour.com
+Description: Execute adversary TTPs and scenarios in cloud environments (AWS, Azure, GCP)
+
+""")
 import os
 import inquirer
 import subprocess
 from dotenv import load_dotenv
 import yaml
+import argparse
 
-print("""
-===========================================
-   Obsidian Protocol – Adversary Emulator
-   License: MIT
-   Contact: security@intarmour.com
-   Description: Execute adversary TTPs and scenarios in cloud environments (AWS)
-===========================================\n""")
 
 load_dotenv()
 
@@ -106,8 +114,36 @@ def configure_ttp(filepath):
         yaml.dump(configured_data, f)
     return temp_file
 
+def detect_cloud_provider_from_env():
+    if os.getenv("AWS_ACCESS_KEY_ID") and os.getenv("AWS_SECRET_ACCESS_KEY"):
+        return "AWS"
+    elif os.getenv("AZURE_CLIENT_ID") and os.getenv("AZURE_TENANT_ID"):
+        return "Azure"
+    elif os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        return "GCP"
+    else:
+        return None
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Obsidian Protocol CLI")
+    parser.add_argument("--file", type=str, help="Path to TTP or scenario YAML file")
+    parser.add_argument("--provider", type=str, choices=["AWS", "Azure", "GCP"], help="Cloud provider")
+    parser.add_argument("--type", type=str, choices=["TTP", "Scenario"], help="Type of file being executed")
+    return parser.parse_args()
+
 def main():
     print("Welcome to Obsidian Protocol - CLI Mode\n")
+    args = parse_arguments()
+    if args.file and args.type:
+        sim_type = args.type
+        provider = args.provider or detect_cloud_provider_from_env() or select_provider()
+        print(f"Selected Provider: {provider}")
+        if sim_type == "TTP":
+            configured_ttp_path = configure_ttp(args.file)
+            run_simulation(configured_ttp_path, sim_type)
+        else:
+            run_simulation(args.file, sim_type)
+        return
 
     creds = load_env_credentials()
     if not creds["AWS_ACCESS_KEY_ID"] or not creds["AWS_SECRET_ACCESS_KEY"]:
@@ -125,7 +161,9 @@ def main():
         print("❌ AWS credentials appear to be invalid or unauthorized. Please verify them.")
         return
 
-    provider = select_provider()
+    provider = detect_cloud_provider_from_env()
+    if not provider:
+        provider = select_provider()
     print(f"Selected Provider: {provider}\n")
 
     while True:
@@ -151,4 +189,5 @@ def main():
                     run_simulation(os.path.join("scenarios", selected_scenario), "Scenario")
 
 if __name__ == "__main__":
+    print("Fammi sapere quando vuoi procedere con il rilevamento multi-cloud da .env o l’integrazione AWS Organizations.")
     main()
