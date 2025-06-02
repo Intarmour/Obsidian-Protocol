@@ -1,0 +1,7 @@
+cloud: aws
+commands:
+- aws iam list-users --profile test-1
+description: Reconnaissance technique 1 for AWS.
+id: TTP-001
+name: AWS Reconnaissance 1
+risk: low

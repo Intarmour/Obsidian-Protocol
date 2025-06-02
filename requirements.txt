@@ -1,0 +1,4 @@
+PyYAML
+inquirer
+python-dotenv
+boto3

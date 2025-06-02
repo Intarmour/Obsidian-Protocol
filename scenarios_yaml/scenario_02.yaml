@@ -1,0 +1,6 @@
+description: AWS attack scenario 2 combining TTPs.
+id: SCENARIO-02
+name: AWS Scenario 2
+ttp_sequence:
+- TTP-002
+- TTP-003
