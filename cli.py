@@ -22,6 +22,9 @@ import argparse
 
 load_dotenv()
 
+with open("config.yaml", "r") as f:
+    CONFIG = yaml.safe_load(f)
+
 import boto3
 import datetime
 import csv
@@ -51,11 +54,14 @@ def load_env_credentials(provider):
         return {}
 
 def select_provider():
-    providers = ["AWS (Free Version)"]
+    providers = CONFIG.get("provider_config", {}).keys()
+    if not providers:
+        print("No providers configured in config.yaml")
+        return None
     questions = [
         inquirer.List('provider',
                       message="Select cloud provider",
-                      choices=providers)
+                      choices=list(providers))
     ]
     answers = inquirer.prompt(questions)
     return answers['provider']
@@ -177,7 +183,7 @@ def assume_role_and_run(account_id, role_name="OrganizationAccountAccessRole"):
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Obsidian Protocol CLI")
     parser.add_argument("--file", type=str, help="Path to TTP or scenario YAML file")
-    parser.add_argument("--provider", type=str, choices=["AWS", "Azure", "GCP"], help="Cloud provider")
+    parser.add_argument("--provider", type=str, choices=list(CONFIG.get("provider_config", {}).keys()), help="Cloud provider")
     parser.add_argument("--type", type=str, choices=["TTP", "Scenario"], help="Type of file being executed")
     return parser.parse_args()
 
@@ -186,7 +192,12 @@ def main():
     args = parse_arguments()
     if args.file and args.type:
         sim_type = args.type
-        provider = args.provider or detect_cloud_provider_from_env() or select_provider()
+        provider = args.provider or detect_cloud_provider_from_env()
+        if not provider:
+            provider = select_provider()
+        if not provider:
+            print("No provider selected. Exiting.")
+            return
         print(f"Selected Provider: {provider}")
         if sim_type == "TTP":
             configured_ttp_path = configure_ttp(args.file)
@@ -198,6 +209,9 @@ def main():
     provider = detect_cloud_provider_from_env()
     if not provider:
         provider = select_provider()
+    if not provider:
+        print("No provider selected. Exiting.")
+        return
 
     creds = load_env_credentials(provider)
 

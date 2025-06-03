@@ -1,0 +1,38 @@
+default_provider: aws
+default_region: us-east-1
+headless: false
+log_file: logs/execution_log.csv
+env_file: .env
+
+integrations:
+  siem:
+    enabled: true
+    tools:
+      - splunk
+      - sentinel
+
+aws_organizations:
+  enabled: false
+  management_account_id: "123456789012"
+
+provider_config:
+  aws:
+    profile: default
+  azure:
+    tenant_id: ""
+    client_id: ""
+    client_secret: ""
+    subscription_id: ""
+  gcp:
+    project_id: ""
+    credentials_file: ""
+  oracle:
+    tenancy_id: ""
+    user_id: ""
+    fingerprint: ""
+    key_file: ""
+    region: ""
+  alibaba:
+    access_key_id: ""
+    access_key_secret: ""
+    region_id: ""
