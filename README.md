@@ -1,3 +1,6 @@
+> ⚡ Obsidian Protocol is now 100% open-source – no premium version, no paywalls.  
+> Built for the community, maintained by Intarmour.
+
 # 🌩️ Obsidian Protocol 
 
 **Open-Source Cloud Adversary Framework**
@@ -8,85 +11,101 @@ Obsidian Protocol allows cybersecurity teams to easily test cloud-based attack t
 ![Air-Gapped](https://img.shields.io/badge/Air--Gapped-Compatible-blue)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk%20%7C%20Sentinel-orange)
 ![Status](https://img.shields.io/badge/Status-MVP--Complete%20%7C%20Headless--Ready-success)
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
-![Maintenance](https://img.shields.io/badge/Maintained-yes-brightgreen)
-![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-ff69b4)
-![Last Commit](https://img.shields.io/github/last-commit/intarmour/obsidian-protocol)
-![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Framework](https://img.shields.io/badge/Built%20With-Python%20%7C%20Boto3%20%7C%20YAML-blue)
 ![Security](https://img.shields.io/badge/Security-First-critical)
 ![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-red)
-![Issues](https://img.shields.io/github/issues/intarmour/obsidian-protocol)
+![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-ff69b4)
 
-## Free Edition Includes
-- 10 advanced AWS TTPs (MITRE ATT&CK aligned)
-- 5 realistic multi-phase attack scenarios
-- Interactive CLI with guided selection and job logging
-- `.env` based credential injection
-- Air-gapped compatible
-- MIT License
-- Headless mode support via --file and --provider flags
-- Execution logging to `.log` and `.csv` formats
-- Auto-detection of multicloud provider from `.env` (Azure, GCP support in progress)
-- Experimental support for AWS Organizations (cross-account test execution)
 
-## Quick Installation Guide
+## 🔥 Features
 
-### Clone the repo
-```bash
-git clone https://github.com/intarmour/obsidian-protocol.git
-cd obsidian-protocol
+- ✅ 25 **Advanced TTPs** per ogni cloud provider (AWS, Azure, GCP, Oracle, Alibaba)
+- 🎯 Full scenario execution with YAML
+- 🌍 **Multicloud**: AWS, Azure, GCP, Oracle, Alibaba
+- 📁 **Modular CLI** with `--file`, `--provider`, `--type`
+- 🧪 Auto-configurable YAML inputs via Jinja-like prompts
+- 📓 **Execution logging** to `execution_log.csv`
+- 🏢 Optional **AWS Organizations** cross-account support
+- 🧩 SIEM integrations (Splunk, Sentinel) – *coming soon*
+- 🛡️ Air-gapped environments – *experimental*
+- 📦 Headless & interactive modes
+- 🧠 Integrated SIEM modules with real detection content (Splunk & Sentinel)
+- 🧾 CSV and JSON execution logs with structured reporting
+
+---
+
+## 📂 Project Structure
+
+```
+.
+├── cli.py                # Main CLI interface
+├── executor.py           # Executes TTPs and scenarios
+├── ttps/                 # YAML-based atomic techniques
+├── scenarios/            # Complex multistep simulations
+├── providers/            # Provider-specific modules
+│   ├── aws.py
+│   ├── azure.py
+│   ├── gcp.py
+│   ├── oracle.py
+│   └── alibaba.py
+├── integrations/         # SIEM integrations (Splunk, Sentinel)
+├── logs/                 # CSV/JSON logs from executions
+├── tests/                # Unit tests per provider
+├── .env.example          # Sample credentials
+└── execution_log.csv     # Execution history
 ```
 
-### Setup Python environment
+---
+
+## 🚀 Quick Start
+
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+# Install requirements
 pip install -r requirements.txt
+
+# Optional: configure log format or SIEM integration in config.yaml
+
+# Set your credentials in .env
+
+# Run a TTP
+python cli.py --file=ttps/example_ttp.yaml --type=TTP
+
+# Run a Scenario
+python cli.py --file=scenarios/example_scenario.yaml --type=Scenario
 ```
 
-### Configure your environment
-```bash
-cp .env.example .env
-nano .env
+---
+
+
+## 🔐 .env Example
+
+```env
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AZURE_CLIENT_ID=...
+AZURE_TENANT_ID=...
+GOOGLE_APPLICATION_CREDENTIALS=...
+ORACLE_TENANCY_ID=...
+ORACLE_USER_ID=...
+ALIBABA_ACCESS_KEY_ID=...
+ALIBABA_ACCESS_KEY_SECRET=...
 ```
 
 
-### Run CLI
-```bash
-python cli.py
-```
-You can also use headless execution with `--file` and `--provider` arguments.
+## 📡 SIEM Integrations
 
-When starting the CLI, a banner with project info, license, and contact will be shown. This helps ensure clear attribution and communication in lab environments.
+Real-world integration examples are provided under the `/integrations` folder:
 
-### Using the CLI (Interactive Mode)
-Once you run the CLI, you’ll be guided through:
+- `splunk/`: SPL queries, field extractions, dashboards
+- `sentinel/`: Workbooks, KQL parsers, playbooks
 
-1. Selecting your cloud provider (currently only AWS is available in the Free Edition)
-2. Verifying your API credentials from the `.env` file
-3. Choosing between running individual TTPs or full scenarios
-4. Executing the selected adversary technique with live feedback
+These modules allow you to correlate TTP and scenario activity with your SIEM pipelines, including dashboards, alerts, and response playbooks.
 
-For advanced use cases or automation, you can also run the CLI in headless mode:
 
-```bash
-python cli.py --provider aws --file ttps/example.yaml
-```
+## Support & Contributions
 
-This enables non-interactive execution, ideal for scripting or CI pipelines.
-
-All executions are logged and stored per job ID for easy auditing and traceability.
-
-## Premium Version
-Interested in additional functionality?
-- 50+ comprehensive TTPs (AWS, Azure, GCP, Oracle, Alibaba)
-- SIEM integration (Splunk & Sentinel)
-- Air-gapped support
-- Priority support and advanced reporting
-
-📧 [info@intarmour.com](mailto:info@intarmour.com)
+Obsidian Protocol is fully open source and maintained by Intarmour.  
+For enterprise support, training, or to contribute with advanced TTPs, contact us at 📧 [info@intarmour.com](mailto:info@intarmour.com).
 
 ## 🐞 Report Bugs
 Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md).
