@@ -1,13 +1,8 @@
-# 🌩️ Obsidian Protocol
+# 🌩️ Obsidian Protocol 
 
-**Project Maintainer**: Intarmour – Offensive Security Research Team  
-**Contact**: [security@intarmour.com](mailto:security@intarmour.com)  
-**License**: MIT  
-**Status**: v1.0.0 - Community Free Edition  
+**Open-Source Cloud Adversary Framework**
 
-**Open-Source Cloud Adversary Simulation Framework**
-
-Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-based attack techniques aligned with the MITRE ATT&CK framework.
+Obsidian Protocol allows cybersecurity teams to easily test cloud-based attack techniques aligned with the MITRE ATT&CK framework.
 
 ![Multicloud](https://img.shields.io/badge/Multicloud-Ready-brightgreen)
 ![Air-Gapped](https://img.shields.io/badge/Air--Gapped-Compatible-blue)
@@ -23,10 +18,8 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 ![Security](https://img.shields.io/badge/Security-First-critical)
 ![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-red)
 ![Issues](https://img.shields.io/github/issues/intarmour/obsidian-protocol)
-![Stars](https://img.shields.io/github/stars/intarmour/obsidian-protocol)
-![Forks](https://img.shields.io/github/forks/intarmour/obsidian-protocol)
 
-## 🔓 Free Edition Includes
+## Free Edition Includes
 - 10 advanced AWS TTPs (MITRE ATT&CK aligned)
 - 5 realistic multi-phase attack scenarios
 - Interactive CLI with guided selection and job logging
@@ -38,7 +31,7 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 - Auto-detection of multicloud provider from `.env` (Azure, GCP support in progress)
 - Experimental support for AWS Organizations (cross-account test execution)
 
-## 🚀 Quick Installation Guide
+## Quick Installation Guide
 
 ### Clone the repo
 ```bash
@@ -86,7 +79,7 @@ This enables non-interactive execution, ideal for scripting or CI pipelines.
 
 All executions are logged and stored per job ID for easy auditing and traceability.
 
-## 🛠️ Premium Version
+## Premium Version
 Interested in additional functionality?
 - 50+ comprehensive TTPs (AWS, Azure, GCP, Oracle, Alibaba)
 - SIEM integration (Splunk & Sentinel)
