@@ -12,7 +12,7 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 ![Multicloud](https://img.shields.io/badge/Multicloud-Ready-brightgreen)
 ![Air-Gapped](https://img.shields.io/badge/Air--Gapped-Compatible-blue)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk%20%7C%20Sentinel-orange)
-![Status](https://img.shields.io/badge/Status-MVP--Complete-success)
+![Status](https://img.shields.io/badge/Status-MVP--Complete%20%7C%20Headless--Ready-success)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Maintenance](https://img.shields.io/badge/Maintained-yes-brightgreen)
@@ -33,6 +33,10 @@ Obsidian Protocol allows cybersecurity teams to easily simulate realistic cloud-
 - `.env` based credential injection
 - Air-gapped compatible
 - MIT License
+- Headless mode support via --file and --provider flags
+- Execution logging to `.log` and `.csv` formats
+- Auto-detection of multicloud provider from `.env` (Azure, GCP support in progress)
+- Experimental support for AWS Organizations (cross-account test execution)
 
 ## 🚀 Quick Installation Guide
 
@@ -60,6 +64,7 @@ nano .env
 ```bash
 python cli.py
 ```
+You can also use headless execution with `--file` and `--provider` arguments.
 
 When starting the CLI, a banner with project info, license, and contact will be shown. This helps ensure clear attribution and communication in lab environments.
 
@@ -70,6 +75,14 @@ Once you run the CLI, you’ll be guided through:
 2. Verifying your API credentials from the `.env` file
 3. Choosing between running individual TTPs or full scenarios
 4. Executing the selected adversary technique with live feedback
+
+For advanced use cases or automation, you can also run the CLI in headless mode:
+
+```bash
+python cli.py --provider aws --file ttps/example.yaml
+```
+
+This enables non-interactive execution, ideal for scripting or CI pipelines.
 
 All executions are logged and stored per job ID for easy auditing and traceability.
 
