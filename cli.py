@@ -20,12 +20,13 @@ from dotenv import load_dotenv
 import yaml
 import argparse
 
-
 load_dotenv()
 
 import boto3
 import datetime
 import csv
+
+from providers import aws, azure, gcp, oracle, alibaba
 
 def test_aws_connection():
     try:
@@ -35,12 +36,19 @@ def test_aws_connection():
     except Exception:
         return False
 
-def load_env_credentials():
-    return {
-        "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID", ""),
-        "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY", ""),
-        "AWS_REGION": os.getenv("AWS_REGION", "us-east-1")
-    }
+def load_env_credentials(provider):
+    if provider == "AWS":
+        return aws.load_credentials()
+    elif provider == "Azure":
+        return azure.load_credentials()
+    elif provider == "GCP":
+        return gcp.load_credentials()
+    elif provider == "Oracle":
+        return oracle.load_credentials()
+    elif provider == "Alibaba":
+        return alibaba.load_credentials()
+    else:
+        return {}
 
 def select_provider():
     providers = ["AWS (Free Version)"]
@@ -135,6 +143,10 @@ def detect_cloud_provider_from_env():
         return "Azure"
     elif os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
         return "GCP"
+    elif os.getenv("ORACLE_TENANCY_ID") and os.getenv("ORACLE_USER_ID"):
+        return "Oracle"
+    elif os.getenv("ALIBABA_ACCESS_KEY_ID") and os.getenv("ALIBABA_ACCESS_KEY_SECRET"):
+        return "Alibaba"
     else:
         return None
 
@@ -183,52 +195,25 @@ def main():
             run_simulation(args.file, sim_type)
         return
 
-    creds = load_env_credentials()
-    if not creds["AWS_ACCESS_KEY_ID"] or not creds["AWS_SECRET_ACCESS_KEY"]:
-        print("Missing AWS credentials in .env file. Please create a .env file with the required keys:")
-        print("AWS_ACCESS_KEY_ID=your_access_key")
-        print("AWS_SECRET_ACCESS_KEY=your_secret_key")
-        print("AWS_REGION=your_region (default: us-east-1)")
-        return
-
-    print("Detected AWS credentials:")
-    print(f"- AWS_ACCESS_KEY_ID: {creds['AWS_ACCESS_KEY_ID'][:4]}***")
-    print(f"- AWS_REGION: {creds['AWS_REGION']}\n")
-
-    if not test_aws_connection():
-        print("❌ AWS credentials appear to be invalid or unauthorized. Please verify them.")
-        return
-
     provider = detect_cloud_provider_from_env()
-    print("Cloud Provider Detection:")
-    if os.getenv("AWS_ACCESS_KEY_ID"):
-        print("- AWS variables detected ✅")
-    else:
-        print("- AWS variables missing ⚠️")
-    if os.getenv("AZURE_CLIENT_ID"):
-        print("- Azure variables detected ✅")
-    else:
-        print("- Azure variables missing ⚠️")
-    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
-        print("- GCP variables detected ✅")
-    else:
-        print("- GCP variables missing ⚠️")
-    print()
     if not provider:
         provider = select_provider()
-    print(f"Selected Provider: {provider}\n")
 
-    if provider == "AWS":
+    creds = load_env_credentials(provider)
+
+    print(f"Detected credentials for {provider}:")
+    for key, value in creds.items():
+        if value:
+            print(f"- {key}: {value[:4]}***")
+        else:
+            print(f"- {key}: MISSING")
+
+    if provider == "AWS" and creds.get("AWS_ACCESS_KEY_ID"):
         use_org = input("Enable AWS Organizations cross-account test? [y/N]: ").strip().lower()
         if use_org == "y":
-            accounts = load_aws_organization_accounts()
-            print(f"Detected {len(accounts)} active AWS Organization accounts:")
+            accounts = aws.load_organization_accounts()
             for acc in accounts:
-                print(f"- {acc}")
-                # Qui potresti eseguire i test per ciascun account, ad esempio assumere un ruolo
-                # e avviare le simulazioni in modalità cross-account
-                # This is a foundation for future extension
-                assume_role_and_run(acc)
+                aws.assume_role_and_run(acc)
 
     while True:
         action = select_execution_type()
@@ -239,7 +224,6 @@ def main():
             ttps = list_yaml_files("ttps")
             selected_ttp = select_yaml_file(ttps, "TTP")
             if selected_ttp:
-                # Parameters for TTPs will be requested from the user during execution
                 confirm = input(f"Run TTP {selected_ttp}? [Y/n]: ").strip().lower()
                 if confirm in ["y", ""]:
                     configured_ttp_path = configure_ttp(os.path.join("ttps", selected_ttp))
