@@ -1,0 +1,9 @@
+name: Azure Function Injection
+description: Azure Function Injection
+mitre_technique: T1059.003
+stage: Execution
+steps:
+- action: az functionapp list
+  description: List function apps
+- action: az functionapp deployment source config-zip --src attack.zip
+  description: Deploy malicious code

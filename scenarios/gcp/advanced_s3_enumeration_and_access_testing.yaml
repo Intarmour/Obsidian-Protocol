@@ -1,0 +1,7 @@
+description: Enumerate and test access to S3 buckets using automated tools.
+name: Advanced S3 Enumeration and Access Testing
+steps:
+- action: aws s3api list-buckets
+  description: List buckets
+- action: s3scanner -bucket <name>
+  description: Test public access with s3scanner

@@ -1,0 +1,7 @@
+name: Log Analytics Query Manipulation
+description: Log Analytics Query Manipulation
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+- action: az monitor log-analytics query --workspace myworkspace --analytics-query 'drop table logs'
+  description: Attempt to destroy logs

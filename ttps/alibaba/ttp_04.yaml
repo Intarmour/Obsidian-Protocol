@@ -1,0 +1,7 @@
+name: Function Compute Exploitation
+description: Function Compute Exploitation
+mitre_technique: T1059
+stage: Execution
+steps:
+- action: aliyun fc UpdateFunctionCode --function-name backdoor --code ./payload
+  description: Deploy backdoor in function

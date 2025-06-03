@@ -1,6 +1,0 @@
-name: Scenario - Full Kill Chain: EC2 Access to S3 Exfiltration
-description: Simulates a full attack chain starting from EC2 compromise, lateral movement via IAM privilege escalation, and S3 data exfiltration.
-ttp_sequence:
-  - Persistent_EC2_Backdoor_SSH.yaml
-  - IAM_PrivEsc_CreatePolicyVersion.yaml
-  - S3_Public_Exposure.yaml

@@ -1,0 +1,7 @@
+name: Object Storage Exfiltration
+description: Object Storage Exfiltration
+mitre_technique: T1537
+stage: Exfiltration
+steps:
+- action: oci os object bulk-download --bucket-name sensitive --download-dir ./loot
+  description: Download data for exfiltration

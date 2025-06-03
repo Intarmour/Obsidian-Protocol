@@ -1,0 +1,7 @@
+name: Abuse Cloud Functions for Execution
+description: Abuse Cloud Functions for Execution
+mitre_technique: T1059
+stage: Execution
+steps:
+- action: gcloud functions deploy attacker --runtime python39 --trigger-http --source=.
+  description: Deploy malicious Cloud Function

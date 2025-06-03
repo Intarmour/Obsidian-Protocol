@@ -1,0 +1,7 @@
+name: EC2 User Data Injection
+description: EC2 User Data Injection
+mitre_technique: T1204
+stage: Initial Access
+steps:
+- action: aws ec2 run-instances --user-data file://malicious.sh
+  description: Launch EC2 with malicious script

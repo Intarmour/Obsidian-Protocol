@@ -1,0 +1,7 @@
+name: IAM Policy Overwrite
+description: IAM Policy Overwrite
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+- action: oci iam policy update --policy-id xyz --statements file://new_policy.json
+  description: Overwrite policies to escalate

@@ -1,0 +1,7 @@
+name: RAM User Token Access
+description: RAM User Token Access
+mitre_technique: T1552
+stage: Credential Access
+steps:
+- action: aliyun sts AssumeRole --RoleArn arn:ram::123456789012:role/Admin --RoleSessionName attacksession
+  description: Obtain temporary credentials

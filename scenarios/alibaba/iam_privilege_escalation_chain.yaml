@@ -1,0 +1,7 @@
+description: Use known privilege escalation methods through IAM misconfigurations.
+name: IAM Privilege Escalation Chain
+steps:
+- action: aws iam list-roles
+  description: Enumerate roles
+- action: aws iam attach-role-policy
+  description: Attach high-privilege policy

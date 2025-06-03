@@ -1,0 +1,9 @@
+name: Abuse of Lambda for Lateral Movement
+description: Abuse of Lambda for Lateral Movement
+mitre_technique: T1071.001
+stage: Lateral Movement
+steps:
+- action: aws lambda list-functions --region us-west-2
+  description: Enumerate functions for lateral movement
+- action: aws lambda invoke --function-name target-fn output.txt
+  description: Execute payload on lateral target

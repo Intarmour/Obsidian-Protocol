@@ -1,0 +1,7 @@
+name: Function Abuse
+description: Function Abuse
+mitre_technique: T1059.006
+stage: Execution
+steps:
+- action: oci fn function invoke --function-id def --body attack
+  description: Trigger remote execution

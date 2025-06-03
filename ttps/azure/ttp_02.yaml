@@ -1,0 +1,7 @@
+name: Abuse of RBAC for Privilege Escalation
+description: Abuse of RBAC for Privilege Escalation
+mitre_technique: T1098.003
+stage: Privilege Escalation
+steps:
+- action: az role assignment create --assignee user@domain.com --role Owner
+  description: Escalate privileges using RBAC

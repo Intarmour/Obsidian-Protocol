@@ -1,0 +1,7 @@
+name: Vault Secret Access
+description: Vault Secret Access
+mitre_technique: T1555.003
+stage: Credential Access
+steps:
+- action: oci vault secret get --secret-id abc
+  description: Retrieve secret

@@ -1,0 +1,11 @@
+description: Performs multi-account reconnaissance and cross-region role assumption.
+name: Advanced AWS Reconnaissance and Lateral Movement
+steps:
+- action: aws organizations list-accounts
+  description: Enumerate AWS accounts
+- action: aws sts assume-role --role-arn <arn> --role-session-name session
+  description: Assume role in different account
+- action: aws ec2 describe-instances --region <region>
+  description: List EC2 instances across regions
+- action: aws ssm send-command ...
+  description: Remotely execute commands via SSM

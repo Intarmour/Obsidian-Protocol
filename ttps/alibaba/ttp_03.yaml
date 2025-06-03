@@ -1,0 +1,7 @@
+name: Log Service Tampering
+description: Log Service Tampering
+mitre_technique: T1562.002
+stage: Defense Evasion
+steps:
+- action: aliyun log delete-logstore --project myproject --logstore logs
+  description: Delete logs to cover tracks

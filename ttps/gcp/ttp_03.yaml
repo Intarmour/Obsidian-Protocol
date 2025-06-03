@@ -1,0 +1,7 @@
+name: Disabling Audit Logging
+description: Disabling Audit Logging
+mitre_technique: T1562.002
+stage: Defense Evasion
+steps:
+- action: gcloud logging sinks delete audit-logs
+  description: Delete audit logs sink

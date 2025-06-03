@@ -1,0 +1,7 @@
+name: Bucket ACL Tampering
+description: Bucket ACL Tampering
+mitre_technique: T1562.001
+stage: Defense Evasion
+steps:
+- action: oci os bucket update --bucket-name mybucket --public-access-type NoPublicAccess
+  description: Modify ACL to hide activity
