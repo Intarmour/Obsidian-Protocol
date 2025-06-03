@@ -95,7 +95,7 @@ def run_simulation(file_path, sim_type):
         print(f"Execution failed: {e}")
     print(f"--- {sim_type} execution complete ---\n")
     if sim_type == "TTP":
-        temp_path = os.path.join("ttp", "_temp_ttp.yaml")
+        temp_path = os.path.join("ttps", "_temp_ttp.yaml")
         if os.path.exists(temp_path):
             os.remove(temp_path)
     log_execution(file_path, sim_type, detect_cloud_provider_from_env())
@@ -131,7 +131,7 @@ def configure_ttp(filepath):
     params = {}
     configured_data = recursive_replace(ttp_data, params)
 
-    temp_file = os.path.join("ttp", "_temp_ttp.yaml")
+    temp_file = os.path.join("ttps", "_temp_ttp.yaml")
     with open(temp_file, 'w') as f:
         yaml.dump(configured_data, f)
     return temp_file
@@ -221,20 +221,20 @@ def main():
             print("Goodbye.")
             break
         elif action == "Run TTP":
-            ttps = list_yaml_files("ttp")
+            ttps = list_yaml_files("ttps")
             selected_ttp = select_yaml_file(ttps, "TTP")
             if selected_ttp:
                 confirm = input(f"Run TTP {selected_ttp}? [Y/n]: ").strip().lower()
                 if confirm in ["y", ""]:
-                    configured_ttp_path = configure_ttp(os.path.join("ttp", selected_ttp))
+                    configured_ttp_path = configure_ttp(os.path.join("ttps", selected_ttp))
                     run_simulation(configured_ttp_path, "TTP")
         elif action == "Run Scenario":
-            scenarios = list_yaml_files("scenarios_yaml")
+            scenarios = list_yaml_files("scenarios")
             selected_scenario = select_yaml_file(scenarios, "Scenario")
             if selected_scenario:
                 confirm = input(f"Run Scenario {selected_scenario}? [Y/n]: ").strip().lower()
                 if confirm in ["y", ""]:
-                    run_simulation(os.path.join("scenarios_yaml", selected_scenario), "Scenario")
+                    run_simulation(os.path.join("scenarios", selected_scenario), "Scenario")
 
 if __name__ == "__main__":
     main()
