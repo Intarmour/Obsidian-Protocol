@@ -1,0 +1,1 @@
+index=obsidian_logs sourcetype="ttp_events" | stats count by ttp_id

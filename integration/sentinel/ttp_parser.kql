@@ -1,0 +1,1 @@
+Syslog | where ProcessName contains "obsidian" | extend TTP_ID=extract("TTP_ID=(T[0-9]+)", 1, RawData)
