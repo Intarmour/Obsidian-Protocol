@@ -6,11 +6,12 @@ print("""
 || |_| | |_) \__ \ | (_| | | (_| | | | | |  __/| | | (_) | || (_) | (_| (_) | ||
 | \___/|_.__/|___/_|\__,_|_|\__,_|_| |_| |_|   |_|  \___/ \__\___/ \___\___/|_||
 '------------------------------------------------------------------------------'
-Obsidian Protocol – Adversary Emulator
-License: MIT
-Contact: security@intarmour.com
-Description: Execute adversary TTPs and scenarios in cloud environments (AWS, Azure, GCP)
-
+# ────────────────────────────────────────────────────────────────
+# Obsidian Protocol – Adversary Emulator
+# License: MIT
+# Contact: security@intarmour.com
+# Description: Execute adversary TTPs and scenarios in cloud environments (AWS, Azure, GCP)
+# ────────────────────────────────────────────────────────────────
 """)
 import os
 import inquirer
@@ -23,6 +24,8 @@ import argparse
 load_dotenv()
 
 import boto3
+import datetime
+import csv
 
 def test_aws_connection():
     try:
@@ -87,6 +90,17 @@ def run_simulation(file_path, sim_type):
         temp_path = os.path.join("ttps", "_temp_ttp.yaml")
         if os.path.exists(temp_path):
             os.remove(temp_path)
+    log_execution(file_path, sim_type, detect_cloud_provider_from_env())
+
+def log_execution(file_path, sim_type, provider):
+    log_file = "execution_log.csv"
+    log_entry = [datetime.datetime.now().isoformat(), sim_type, provider, file_path]
+    try:
+        with open(log_file, 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(log_entry)
+    except Exception as e:
+        print(f"Logging failed: {e}")
 
 def configure_ttp(filepath):
     def recursive_replace(data, params):
@@ -123,6 +137,30 @@ def detect_cloud_provider_from_env():
         return "GCP"
     else:
         return None
+
+# Function to load AWS Organization accounts
+def load_aws_organization_accounts():
+    try:
+        org = boto3.client("organizations")
+        accounts = org.list_accounts()
+        return [acct["Id"] for acct in accounts["Accounts"] if acct["Status"] == "ACTIVE"]
+    except Exception as e:
+        print(f"Failed to retrieve AWS organization accounts: {e}")
+        return []
+
+def assume_role_and_run(account_id, role_name="OrganizationAccountAccessRole"):
+    try:
+        sts_client = boto3.client("sts")
+        response = sts_client.assume_role(
+            RoleArn=f"arn:aws:iam::{account_id}:role/{role_name}",
+            RoleSessionName="ObsidianProtocolCrossAccountSession"
+        )
+        creds = response['Credentials']
+        print(f"✅ Assumed role in account {account_id}")
+        # Here you could launch execution using these temporary credentials
+        # or instantiate boto3.client(service_name, **creds)
+    except Exception as e:
+        print(f"❌ Failed to assume role in account {account_id}: {e}")
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Obsidian Protocol CLI")
@@ -162,9 +200,35 @@ def main():
         return
 
     provider = detect_cloud_provider_from_env()
+    print("Cloud Provider Detection:")
+    if os.getenv("AWS_ACCESS_KEY_ID"):
+        print("- AWS variables detected ✅")
+    else:
+        print("- AWS variables missing ⚠️")
+    if os.getenv("AZURE_CLIENT_ID"):
+        print("- Azure variables detected ✅")
+    else:
+        print("- Azure variables missing ⚠️")
+    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        print("- GCP variables detected ✅")
+    else:
+        print("- GCP variables missing ⚠️")
+    print()
     if not provider:
         provider = select_provider()
     print(f"Selected Provider: {provider}\n")
+
+    if provider == "AWS":
+        use_org = input("Enable AWS Organizations cross-account test? [y/N]: ").strip().lower()
+        if use_org == "y":
+            accounts = load_aws_organization_accounts()
+            print(f"Detected {len(accounts)} active AWS Organization accounts:")
+            for acc in accounts:
+                print(f"- {acc}")
+                # Qui potresti eseguire i test per ciascun account, ad esempio assumere un ruolo
+                # e avviare le simulazioni in modalità cross-account
+                # This is a foundation for future extension
+                assume_role_and_run(acc)
 
     while True:
         action = select_execution_type()
@@ -189,5 +253,4 @@ def main():
                     run_simulation(os.path.join("scenarios", selected_scenario), "Scenario")
 
 if __name__ == "__main__":
-    print("Fammi sapere quando vuoi procedere con il rilevamento multi-cloud da .env o l’integrazione AWS Organizations.")
     main()
