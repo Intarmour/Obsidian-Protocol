@@ -11,6 +11,7 @@ Obsidian Protocol allows cybersecurity teams to easily test cloud-based attack t
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk%20%7C%20Sentinel-orange)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Status](https://img.shields.io/badge/Status-Open--Source-success)
+![CI](https://github.com/Intarmour/Obsidian-Protocol/actions/workflows/python-tests.yml/badge.svg)
 
 
 ## 🔥 Features
