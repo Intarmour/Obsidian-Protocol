@@ -5,36 +5,45 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def execute_gcp_ttp(yaml_file):
-    print(f"Executing GCP TTP from: {yaml_file}")
+class GCPProvider:
+    def __init__(self, credentials=None):
+        self.credentials = credentials
 
-    if not os.path.exists(yaml_file):
-        print(f"File not found: {yaml_file}")
-        return
+    def run_ttp(self, yaml_file):
+        print(f"\n[+] Executing GCP TTP: {yaml_file}")
 
-    with open(yaml_file, 'r') as file:
-        try:
-            data = yaml.safe_load(file)
-        except yaml.YAMLError as exc:
-            print(f"Error parsing YAML: {exc}")
+        if not os.path.exists(yaml_file):
+            print(f"[!] File not found: {yaml_file}")
             return
 
-    steps = data.get("steps", [])
-    if not steps:
-        print("No steps defined in the TTP file.")
-        return
-
-    for idx, step in enumerate(steps):
-        action = step.get("action", "")
-        description = step.get("description", "")
-
-        print(f"\n[{idx+1}] {description}")
-        print(f"Command: {action}")
-
         try:
-            subprocess.run(action, shell=True, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Step failed: {e}")
-            continue
+            with open(yaml_file, 'r') as file:
+                data = yaml.safe_load(file)
+        except yaml.YAMLError as exc:
+            print(f"[!] Error parsing YAML: {exc}")
+            return
 
-    print("\nGCP TTP execution completed.")
+        print(f"\n[+] TTP: {data.get('name', 'Unnamed')}")
+        print(f"Description: {data.get('description', 'No description')}")
+        print(f"MITRE Technique: {data.get('mitre_technique', 'N/A')}")
+        print(f"Stage: {data.get('stage', 'N/A')}")
+
+        steps = data.get("steps", [])
+        if not steps:
+            print("[!] No steps defined in the TTP file.")
+            return
+
+        for idx, step in enumerate(steps):
+            action = step.get("action", "")
+            description = step.get("description", "No description provided.")
+
+            print(f"\n[{idx+1}] {description}")
+            print(f"[>] Command: {action}")
+
+            try:
+                subprocess.run(action, shell=True, check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"[!] Step failed: {e}")
+                continue
+
+        print("\n[+] GCP TTP execution completed.")
