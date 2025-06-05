@@ -15,7 +15,7 @@ class OracleProvider:
             return error_msg
         except Exception as e:
             print(f"[!] Unexpected error in Oracle command: {e}")
-            return str(e)
+            return f"Error executing Oracle command: {e}"
 
     def run_ttp(self, file_path):
         print(f"\n[+] Executing Oracle TTP: {file_path}")
