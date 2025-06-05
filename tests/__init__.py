@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import unittest
-from providers.aws import AWSProvider
+# Marks the tests directory as a package
 
 class TestAWSProvider(unittest.TestCase):
     def setUp(self):
