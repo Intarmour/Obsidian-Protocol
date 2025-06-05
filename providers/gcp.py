@@ -15,7 +15,7 @@ class GCPProvider:
             print(result.stdout)
             return result.stdout
         except subprocess.CalledProcessError as e:
-            error_msg = f"[!] Command failed: {e}"
+            error_msg = f"Error executing GCP command: {e}"
             print(error_msg)
             return error_msg
 
