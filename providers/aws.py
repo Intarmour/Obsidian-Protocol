@@ -6,6 +6,21 @@ class AWSProvider:
     def __init__(self, credentials=None):
         self.credentials = credentials
 
+    def run_command(self, command):
+        env = os.environ.copy()
+        if self.credentials:
+            env["AWS_ACCESS_KEY_ID"] = self.credentials.get("AWS_ACCESS_KEY_ID", "")
+            env["AWS_SECRET_ACCESS_KEY"] = self.credentials.get("AWS_SECRET_ACCESS_KEY", "")
+            env["AWS_REGION"] = self.credentials.get("AWS_REGION", "us-east-1")
+
+        try:
+            result = subprocess.run(command, shell=True, check=True, env=env, capture_output=True, text=True)
+            print(result.stdout)
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            print(f"[!] Command failed: {e}")
+            return str(e)
+
     def run_ttp(self, filepath):
         try:
             with open(filepath, 'r') as f:

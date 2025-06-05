@@ -5,6 +5,15 @@ class AlibabaProvider:
     def __init__(self, credentials=None):
         self.credentials = credentials
 
+    def run_command(self, command):
+        try:
+            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+            print(result.stdout)
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            print(f"[!] Command failed: {e}")
+            return str(e)
+
     def run_ttp(self, file_path):
         try:
             with open(file_path, 'r') as f:
