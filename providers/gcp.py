@@ -15,8 +15,9 @@ class GCPProvider:
             print(result.stdout)
             return result.stdout
         except subprocess.CalledProcessError as e:
-            print(f"[!] Command failed: {e}")
-            return str(e)
+            error_msg = f"[!] Command failed: {e}"
+            print(error_msg)
+            return error_msg
 
     def run_ttp(self, yaml_file):
         print(f"\n[+] Executing GCP TTP: {yaml_file}")
