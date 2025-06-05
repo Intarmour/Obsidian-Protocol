@@ -1,5 +1,3 @@
-
-
 import subprocess
 import yaml
 
@@ -10,10 +8,13 @@ class OracleProvider:
     def run_command(self, command):
         try:
             result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-            print(result.stdout)
             return result.stdout
         except subprocess.CalledProcessError as e:
-            print(f"[!] Command failed: {e}")
+            error_msg = f"Error executing Oracle command: {e}"
+            print(f"[!] {error_msg}")
+            return error_msg
+        except Exception as e:
+            print(f"[!] Unexpected error in Oracle command: {e}")
             return str(e)
 
     def run_ttp(self, file_path):
