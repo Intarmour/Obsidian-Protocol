@@ -18,21 +18,36 @@ aws_organizations:
 provider_config:
   aws:
     profile: default
+    proxy:
+      http: ""
+      https: ""
   azure:
     tenant_id: ""
     client_id: ""
     client_secret: ""
     subscription_id: ""
+    proxy:
+      http: ""
+      https: ""
   gcp:
     project_id: ""
     credentials_file: ""
+    proxy:
+      http: ""
+      https: ""
   oracle:
     tenancy_id: ""
     user_id: ""
     fingerprint: ""
     key_file: ""
     region: ""
+    proxy:
+      http: ""
+      https: ""
   alibaba:
     access_key_id: ""
     access_key_secret: ""
     region_id: ""
+    proxy:
+      http: ""
+      https: ""

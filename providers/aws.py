@@ -3,8 +3,9 @@ import yaml
 import os
 
 class AWSProvider:
-    def __init__(self, credentials=None):
+    def __init__(self, credentials=None, proxy_config=None):
         self.credentials = credentials
+        self.proxy_config = proxy_config
 
     def run_command(self, command):
         env = os.environ.copy()
@@ -12,6 +13,9 @@ class AWSProvider:
             env["AWS_ACCESS_KEY_ID"] = self.credentials.get("AWS_ACCESS_KEY_ID", "")
             env["AWS_SECRET_ACCESS_KEY"] = self.credentials.get("AWS_SECRET_ACCESS_KEY", "")
             env["AWS_REGION"] = self.credentials.get("AWS_REGION", "us-east-1")
+            if self.proxy_config:
+                env["http_proxy"] = self.proxy_config.get("http_proxy", "")
+                env["https_proxy"] = self.proxy_config.get("https_proxy", "")
 
         try:
             result = subprocess.run(command, shell=True, check=True, env=env, capture_output=True, text=True)

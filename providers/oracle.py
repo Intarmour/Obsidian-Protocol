@@ -1,13 +1,24 @@
 import subprocess
 import yaml
+import os
 
 class OracleProvider:
-    def __init__(self, credentials=None):
+    def __init__(self, credentials=None, proxy_config=None):
         self.credentials = credentials
+        self.proxy_config = proxy_config
 
     def run_command(self, command):
+        env = os.environ.copy()
+        if self.proxy_config:
+            if "http" in self.proxy_config:
+                env["HTTP_PROXY"] = self.proxy_config["http"]
+            if "https" in self.proxy_config:
+                env["HTTPS_PROXY"] = self.proxy_config["https"]
+            if "no_proxy" in self.proxy_config:
+                env["NO_PROXY"] = self.proxy_config["no_proxy"]
+
         try:
-            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True, env=env)
             return result.stdout
         except subprocess.CalledProcessError as e:
             error_msg = f"Error executing Oracle command: {e}"
@@ -39,8 +50,8 @@ class OracleProvider:
                 print(f"\n[*] Step: {description}")
                 print(f"[>] Command: {command}")
                 try:
-                    subprocess.run(command, shell=True, check=True)
-                except subprocess.CalledProcessError as e:
+                    self.run_command(command)
+                except Exception as e:
                     print(f"[!] Command failed: {e}")
         except FileNotFoundError:
             print(f"[!] File not found: {file_path}")

@@ -1,13 +1,21 @@
+import os
 import subprocess
 import yaml
 
 class AlibabaProvider:
-    def __init__(self, credentials=None):
+    def __init__(self, credentials=None, proxy_config=None):
         self.credentials = credentials
+        self.proxy_config = proxy_config or {}
 
     def run_command(self, command):
+        env = os.environ.copy()
+        if self.proxy_config:
+            if 'http' in self.proxy_config:
+                env['http_proxy'] = self.proxy_config['http']
+            if 'https' in self.proxy_config:
+                env['https_proxy'] = self.proxy_config['https']
         try:
-            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+            result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True, env=env)
             print(result.stdout)
             return result.stdout
         except subprocess.CalledProcessError as e:

@@ -114,8 +114,16 @@ def log_to_splunk(event_data):
         "index": splunk_index
     }
 
+    proxies = {
+        "http": os.getenv("HTTP_PROXY"),
+        "https": os.getenv("HTTPS_PROXY")
+    }
+
+    if proxies["http"] or proxies["https"]:
+        logging.info(f"Using proxies: HTTP={proxies['http']} HTTPS={proxies['https']}")
+
     try:
-        response = requests.post(splunk_url, headers=headers, data=json.dumps(payload), verify=False)
+        response = requests.post(splunk_url, headers=headers, data=json.dumps(payload), verify=False, proxies=proxies)
         response.raise_for_status()
         logging.info("Event successfully sent to Splunk.")
     except requests.exceptions.RequestException as e:

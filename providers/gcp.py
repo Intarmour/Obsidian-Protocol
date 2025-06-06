@@ -6,8 +6,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class GCPProvider:
-    def __init__(self, credentials=None):
+    def __init__(self, credentials=None, proxy_config=None):
         self.credentials = credentials
+        # Set proxy environment variables if proxy_config is provided
+        if proxy_config:
+            if 'HTTP_PROXY' in proxy_config:
+                os.environ['HTTP_PROXY'] = proxy_config['HTTP_PROXY']
+            if 'HTTPS_PROXY' in proxy_config:
+                os.environ['HTTPS_PROXY'] = proxy_config['HTTPS_PROXY']
+            if 'NO_PROXY' in proxy_config:
+                os.environ['NO_PROXY'] = proxy_config['NO_PROXY']
 
     def run_command(self, command):
         try:
@@ -15,7 +23,7 @@ class GCPProvider:
             print(result.stdout)
             return result.stdout
         except subprocess.CalledProcessError as e:
-            error_msg = f"Error executing GCP command: {e}"
+            error_msg = f"[!] Error executing GCP command: {e}\nSTDOUT: {e.stdout}\nSTDERR: {e.stderr}"
             print(error_msg)
             return error_msg
 
