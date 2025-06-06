@@ -1,0 +1,11 @@
+name: Azure Persistence via Automation Account
+description: Abuse Azure Automation to maintain persistent access.
+mitre_technique: T1053
+stage: Persistence
+steps:
+  - action: az automation account create --name backdoorAccount --resource-group <rg-name> --location <location>
+    description: Create a new Automation Account
+  - action: az automation runbook create --automation-account-name backdoorAccount --resource-group <rg-name> --name backdoorRunbook --type PowerShell --location <location>
+    description: Upload persistence PowerShell script
+  - action: az automation runbook start --name backdoorRunbook --automation-account-name backdoorAccount --resource-group <rg-name>
+    description: Start the backdoor runbook

