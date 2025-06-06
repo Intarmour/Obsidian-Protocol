@@ -1,0 +1,9 @@
+name: Disable ActionTrail Logging
+description: Attempts to disable ActionTrail for stealth.
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+  - action: aliyun actiontrail DescribeTrails
+    description: Identify active trails
+  - action: aliyun actiontrail UpdateTrail --Name <trail-name> --Status Disabled
+    description: Disable selected ActionTrail
