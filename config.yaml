@@ -1,6 +1,10 @@
 default_provider: aws
 default_region: us-east-1
 headless: false
+log_format: '[{timestamp}] {provider} - {status}: {message}'
+output_format: json
+proxy_enabled: false
+proxy_url: ''
 log_file: logs/execution_log.csv
 env_file: .env
 
