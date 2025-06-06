@@ -1,0 +1,9 @@
+name: Data Exfiltration via Lambda to External Endpoint
+description: Abuse Lambda function to send data to an external endpoint.
+mitre_technique: T1041
+stage: Exfiltration
+steps:
+  - action: aws lambda create-function --function-name exfilData --runtime python3.9 --role <role-arn> --handler lambda_function.lambda_handler --zip-file fileb://exfil.zip
+    description: Deploy a Lambda function with exfiltration logic
+  - action: aws lambda invoke --function-name exfilData output.json
+    description: Trigger Lambda function to exfiltrate data

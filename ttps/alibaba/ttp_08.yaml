@@ -1,0 +1,9 @@
+name: ECS Backdoor via Startup Script
+description: Injects a malicious startup script to regain access on reboot.
+mitre_technique: T1053
+stage: Persistence
+steps:
+  - action: aliyun ecs DescribeInstances
+    description: List ECS instances
+  - action: aliyun ecs ModifyInstanceAttribute --InstanceId <instance-id> --UserData file://startup-script.sh
+    description: Inject persistent startup script into instance

