@@ -66,13 +66,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Upload test logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: simulation-logs
           path: logs/
 
       - name: Upload config and debug artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: config-and-debug
           path: |
