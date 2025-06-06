@@ -8,6 +8,9 @@ import splunklib.results as splunk_results
 from azure.loganalytics import LogAnalyticsDataClient
 from azure.identity import DefaultAzureCredential
 from azure.loganalytics.models import QueryBody
+import csv
+import datetime
+from argparse import Namespace
 
 logging.basicConfig(filename='execution.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -16,6 +19,20 @@ def detect_provider():
         if os.getenv(f"{provider}_ACCESS_KEY_ID") or os.getenv(f"{provider}_CREDENTIALS"):
             return provider
     return "AWS"  # Default fallback
+
+def log_to_csv(provider: str, file_path: str, mode: str, status: str):
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, "audit_log.csv")
+    with open(log_file, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            datetime.datetime.now().isoformat(),
+            provider.upper(),
+            mode,
+            file_path,
+            status
+        ])
 
 def main():
     parser = argparse.ArgumentParser(description="Obsidian Protocol Executor")
@@ -31,25 +48,37 @@ def main():
         module = importlib.import_module(f"providers.{provider}")
         if args.mode == "ttp" and hasattr(module, "run_ttp"):
             logging.info(f"Executing TTP from ttps/{args.file} on {provider.upper()}")
-            module.run_ttp(args.file)
-            if args.log_siem:
-                with open(args.file, 'r') as f:
-                    content = f.read()
-                log_to_splunk(content)
-                log_to_sentinel(os.getenv("AZURE_WORKSPACE_ID"), f"CustomEvents | where RawData contains '{args.file}'")
+            try:
+                module.run_ttp(args.file)
+                log_to_csv(provider, args.file, args.mode, "SUCCESS")
+                if args.log_siem:
+                    with open(args.file, 'r') as f:
+                        content = f.read()
+                    log_to_splunk(content)
+                    log_to_sentinel(os.getenv("AZURE_WORKSPACE_ID"), f"CustomEvents | where RawData contains '{args.file}'")
+            except Exception as e:
+                logging.error(f"Failed to execute TTP: {e}")
+                log_to_csv(provider, args.file, args.mode, "FAILED")
         elif args.mode == "scenario" and hasattr(module, "run_scenario"):
             logging.info(f"Executing Scenario from scenarios/{args.file} on {provider.upper()}")
-            module.run_scenario(args.file)
-            if args.log_siem:
-                with open(args.file, 'r') as f:
-                    content = f.read()
-                log_to_splunk(content)
-                log_to_sentinel(os.getenv("AZURE_WORKSPACE_ID"), f"CustomEvents | where RawData contains '{args.file}'")
+            try:
+                module.run_scenario(args.file)
+                log_to_csv(provider, args.file, args.mode, "SUCCESS")
+                if args.log_siem:
+                    with open(args.file, 'r') as f:
+                        content = f.read()
+                    log_to_splunk(content)
+                    log_to_sentinel(os.getenv("AZURE_WORKSPACE_ID"), f"CustomEvents | where RawData contains '{args.file}'")
+            except Exception as e:
+                logging.error(f"Failed to execute Scenario: {e}")
+                log_to_csv(provider, args.file, args.mode, "FAILED")
         else:
             logging.error(f"The module for {provider.upper()} does not implement the required method '{'run_ttp' if args.mode == 'ttp' else 'run_scenario'}'")
             print(f"[ERROR] The module for {provider.upper()} does not implement the required method '{'run_ttp' if args.mode == 'ttp' else 'run_scenario'}'")
+            log_to_csv(provider, args.file, args.mode, "NOT_IMPLEMENTED")
     except ModuleNotFoundError:
         print(f"No implementation found for provider: {provider.upper()}")
+        log_to_csv(provider, args.file, args.mode, "MODULE_NOT_FOUND")
 
     print("Execution complete. Check execution.log for more details.")
 
